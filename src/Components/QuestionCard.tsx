@@ -1,28 +1,7 @@
 import React from 'react'
 import { AnswerObject } from '../App';
-// import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-// import Paper from '@material-ui/core/Paper';
 import { Button, Typography } from 'antd';
 import { InfoCircleFilled } from '@ant-design/icons';
-
-// const useStyles = makeStyles((theme: Theme) =>
-//     createStyles({
-//         root: {
-//             flexGrow: 1,
-//             // width: '75vw',
-//             // marginLeft: '15%',
-//             borderColor: '#000000',
-//             borderWidth: 100,
-//         },
-//         paper: {
-//             padding: theme.spacing(0.5),
-//             textAlign: 'left',
-//             color: theme.palette.text.primary,
-//             // borderColor: 'black',
-//             // borderWidth: 2,
-//         },
-//     }),
-// );
 
 type Props = {
     question: string;
@@ -40,7 +19,6 @@ const QuestionCard: React.FC<Props> = ({
     questionNr,
     totalQuestions
 }) => {
-    // const classes = useStyles();
     const { Title } = Typography;
 
     return (

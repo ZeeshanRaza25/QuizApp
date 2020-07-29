@@ -1,6 +1,5 @@
-
-const calculateGrade = (score: string) => {
-    const percentage = parseInt(score);
+const calculateGrade = (finalscore: number) => {
+    const percentage = finalscore;
 
     let grade = null;
     let remarks = null;
@@ -33,7 +32,7 @@ const calculateGrade = (score: string) => {
         grade = 'F';
     }
 
-    if (score >= '60') {
+    if (percentage >= 60) {
         remarks = 'Congratulations, YOU PASSED!';
     } else {
         remarks = 'Sorry, YOU FAILED!';
