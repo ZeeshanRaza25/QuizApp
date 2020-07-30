@@ -7,35 +7,34 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Tabs } from 'antd';
+import { Tabs, Button } from 'antd';
 import Mystats from './Stats';
-import CircularProgress, { CircularProgressProps } from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { Button } from 'antd';
+// import CircularProgress, { CircularProgressProps } from '@material-ui/core/CircularProgress';
+// import Typography from '@material-ui/core/Typography';
+// import Box from '@material-ui/core/Box';
 import { HomeTwoTone, ReloadOutlined } from '@ant-design/icons';
 
-function CircularProgressWithLabel(props: CircularProgressProps & { value: number }) {
-    return (
-        <Box position="relative" display="inline-flex">
-            <CircularProgress variant="static" {...props} />
-            <Box
-                top={0}
-                left={0}
-                bottom={0}
-                right={0}
-                position="absolute"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-            >
-                <Typography variant="caption" component="div" color="textSecondary">{`${Math.round(
-                    props.value,
-                )}%`}</Typography>
-            </Box>
-        </Box>
-    );
-}
+// function CircularProgressWithLabel(props: CircularProgressProps & { value: number }) {
+//     return (
+//         <Box position="relative" display="inline-flex">
+//             <CircularProgress variant="static" {...props} />
+//             <Box
+//                 top={0}
+//                 left={0}
+//                 bottom={0}
+//                 right={0}
+//                 position="absolute"
+//                 display="flex"
+//                 alignItems="center"
+//                 justifyContent="center"
+//             >
+//                 <Typography variant="caption" component="div" color="textSecondary">{`${Math.round(
+//                     props.value,
+//                 )}%`}</Typography>
+//             </Box>
+//         </Box>
+//     );
+// }
 
 const useStyles = makeStyles({
     table: {
@@ -55,7 +54,7 @@ const useStyles = makeStyles({
 // createData('Gingerbread', 356, 16.0, 49, 3.9),
 
 function callback(key: any) {
-    console.log(key);
+    // console.log(key);
 }
 
 type Props = {
@@ -80,7 +79,7 @@ const Stats: React.FC<Props> = ({ answers, score, gameover, start, totalQuestion
     //     };
     // }, []);
 
-    console.log("gameOver ", gameOver);
+    // console.log("gameOver ", gameOver);
     const classes = useStyles();
     const { TabPane } = Tabs;
     const rows: any = answers;
@@ -89,13 +88,13 @@ const Stats: React.FC<Props> = ({ answers, score, gameover, start, totalQuestion
         <div>
             <Tabs centered animated tabPosition="top" size="large" defaultActiveKey="1" onChange={callback}>
                 <TabPane tab="Stats" key="1" >
-                    <Mystats score={score} totalQuestions={totalQuestions}  />
+                    <Mystats score={score} totalQuestions={totalQuestions} />
                     {
                         !gameOver ?
                             <div>
                                 <Button type="primary" size="large" icon={<ReloadOutlined />} onClick={start}>Retake Quiz</Button>
-                                <span>{' '}{' '}{' '}</span>
-                                <Button type="primary" size="large" icon={<HomeTwoTone />}>Back to Home</Button>
+                                {/* <span>{' '}{' '}{' '}</span>
+                                   <Button type="primary" size="large" icon={<HomeTwoTone />}>Back to Home</Button> */}
                                 {/* <Button ghost block disabled size="large" style={{ height: '8%' }}>
                             <Title level={3} style={{ textAlign: 'center', fontWeight: "bold", borderWidth: 5, borderColor: 'black' }}>
                                 Retake Quiz
@@ -107,7 +106,7 @@ const Stats: React.FC<Props> = ({ answers, score, gameover, start, totalQuestion
                     }
                 </TabPane>
                 <TabPane tab="Questions & Answers" key="2">
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} style={{ marginBottom: '15vh' }}>
                         <Table className={classes.table} aria-label="Table">
                             <TableHead>
                                 <TableRow>

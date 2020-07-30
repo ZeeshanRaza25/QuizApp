@@ -1,223 +1,237 @@
-import React from 'react';
-import clsx from 'clsx';
-import { createStyles, makeStyles, useTheme, Theme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        formControl: {
-            margin: theme.spacing(3),
-            minWidth: `60vw`,
-            maxWidth: `100vw`,
-            // backgroundColor: 'black'
-        },
-        chips: {
-            display: 'flex',
-            flexWrap: 'wrap',
-        },
-        chip: {
-            margin: 2,
-        },
-        noLabel: {
-            marginTop: theme.spacing(3),
-        },
-    }),
-);
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
-const names = [
-    'General Knowledge',
-    'Entertainment: Books',
-    'Entertainment: Film',
-    'Entertainment: Music',
-    'Entertainment: Musicals & Theatres',
-    'Entertainment: Television',
-    'Entertainment: Video Games',
-    'Entertainment: Board Games',
-    'Science & Nature',
-    'Science: Computers',
-    'Science: Mathematics',
-    'Mythology',
-    'Sports',
-    'Geography',
-    'History',
-    'Politics',
-    'Art',
-    'Celebrities',
-    'Animals',
-    'Vehicles',
-    'Entertainment: Comics',
-    'Science: Gadgets',
-    'Entertainment: Japanese Anime & Manga',
-    'Entertainment: Cartoon & Animations',
-];
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Typography, Button, Select } from 'antd';
+import { PlayCircleTwoTone } from '@ant-design/icons';
+import axios from 'axios';
 
 const NumberOfQuestions = [`1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`,
-    `11`, `12`, `13`, `14`, `15`, `16`, `17`, 18, `19`, `20`,
-    `21`, `22`, `23`, `24`, `25`, `26`, `27`, 28, `29`, `30`,
-    `31`, `32`, `33`, `34`, `35`, `36`, `37`, 38, `39`, `40`,
-    `41`, `42`, `43`, `44`, `45`, `46`, `47`, 48, `49`, `50`]
+    `11`, `12`, `13`, `14`, `15`, `16`, `17`, `18`, `19`, `20`,
+    `21`, `22`, `23`, `24`, `25`, `26`, `27`, `28`, `29`, `30`,
+    `31`, `32`, `33`, `34`, `35`, `36`, `37`, `38`, `39`, `40`,
+    `41`, `42`, `43`, `44`, `45`, `46`, `47`, `48`, `49`, `50`]
 
 const difficultyLevel = [`easy`, `medium`, `hard`];
 
 const questType = [`Any Type`, `Multiple Choice`, `True / False`];
 
-function getStyles(name: string, personName: string[], theme: Theme) {
-    return {
-        fontWeight:
-            personName.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
+
+type Props = {
+    start: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function getStyles1(name: string, NumberOfQuestions: string[], theme: Theme) {
-    return {
-        fontWeight:
-            NumberOfQuestions.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
+export enum Difficulty {
+    EASY = 'easy',
+    MEDIUM = 'medium',
+    HARD = 'hard',
 }
 
-function getDifficultyStyles(name: string, difficulty: string[], theme: Theme) {
-    return {
-        fontWeight:
-            difficulty.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
-}
-function getTypeStyles(name: string, difficulty: string[], theme: Theme) {
-    return {
-        fontWeight:
-            difficulty.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
-}
+export type Question = {
+    category: string;
+    type: string;
 
-export default function MultipleSelect() {
-    const classes = useStyles();
-    const theme = useTheme();
-    const [personName, setPersonName] = React.useState<string[]>([]);
-    const [numOFQuestion, setNumOFQuestion] = React.useState<string[]>([]);
-    const [difficulty, setDifficulty] = React.useState<string[]>([]);
-    const [questionType, setQuestionType] = React.useState<string[]>([]);
+}
+// const MultipleSelect: React.FC<Props> = ({ start }) => {
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setPersonName(event.target.value as string[]);
-    };
-    const handleQuantity = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setNumOFQuestion(event.target.value as string[]);
-    };
-    const handleDifficulty = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setDifficulty(event.target.value as string[]);
-    };
-    const handleType = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setQuestionType(event.target.value as string[]);
-    };
+const MultipleSelect: React.FC<Props> = ({ start }) => {
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios('https://opentdb.com/api_category.php');
+            const final = result.data.trivia_categories;
+            setnames(final);
+            // setnames(result.data.trivia_categories);
+        };
+        fetchData();
+    }, []);
+
+    const fetchQuizdata = async (
+        amount: number,
+        difficulty: Difficulty,
+        Category: string,
+        questionType: string,
+    ) => {
+        console.log("Category =>", Category)
+        const url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&category=${questionType}&type=${Category}`;
+        //https://opentdb.com/api.php?amount=20&category=32&difficulty=easy&type=multiple
+        const data = await (await fetch(url)).json();
+        console.log(data)
+        setData(data);
+    }
+    // const setCategory: (value: React.SetStateAction<undefined>) => void
+    const [Data, setData] = useState([]);
+    const [Category, setCategory] = useState<string>("");
+    const [amount, setAmount] = React.useState<number>(0);
+    const [difficulty, setDifficulty] = React.useState<any>();
+    const [questionType, setQuestionType] = React.useState<any>();
+    const [names, setnames] = useState([]);
+    // console.log(Data);
+    // const classes = useStyles();
+    // const theme = useTheme();
+    // const [personName, setPersonName] = React.useState<string[]>([]);
+
+    // const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    //     setPersonName(event.target.value as string[]);
+    // };
+    // const handleQuantity = (event: React.ChangeEvent<{ value: unknown }>) => {
+    //     setNumOFQuestion(event.target.value as string[]);
+    // };
+    // const handleDifficulty = (event: React.ChangeEvent<{ value: unknown }>) => {
+    //     setDifficulty(event.target.value as string[]);
+    // };
+    // const handleType = (event: React.ChangeEvent<{ value: unknown }>) => {
+    //     setQuestionType(event.target.value as string[]);
+    // };
+    const { Option } = Select;
+    const { Title } = Typography;
+
+    function changeCategory(value: any) {
+        console.log(`selected ${value}`);
+        let result: any = names.filter((name: any) => name.name === value);
+        const [{ id }] = result;
+        // console.log(id);
+        setCategory(id)
+        // setCategory(value);
+    }
+    function changeNoQuest(value: any) {
+        // console.log(`selected ${value}`);
+        setAmount(value);
+    }
+    function changeLevel(value: any) {
+        // console.log(`selected ${value}`);
+        setDifficulty(value)
+    }
+    function changeType(value: any) {
+        console.log(`selected ${value}`);
+        if (value === "Multiple Choice") {
+            return setQuestionType('multiple')
+        } else if (value === "True / False") {
+            return setQuestionType('boolean')
+        } else return setQuestionType("anyType")
+    }
+    console.log(questionType);
+    function onBlur() {
+        // console.log('blur');
+    }
+
+    function onFocus() {
+        // console.log('focus');
+    }
+
+    function onSearch(val: any) {
+        // console.log('search:', val);
+    }
+    const style = { background: '#fff', margin: '20px 0 0 0' };
+
 
     return (
-        <div style={{ width: `100vw` }}>
-            <FormControl className={clsx(classes.formControl, classes.noLabel)}>
-                <Select
-                    displayEmpty
-                    value={personName}
-                    onChange={handleChange}
-                    input={<Input />}
-                    renderValue={(selected) => {
-                        if ((selected as string[]).length === 0) {
-                            return <em>Select Quiz Category</em>;
-                        }
-                        return (selected as string[]);
-                    }}
-                    MenuProps={MenuProps}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                >
-                    <MenuItem value="">
-                        <em>Any Category</em>
-                    </MenuItem>
-                    {names.map((name) => (
-                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                            {name}
-                        </MenuItem>
-                    ))}
-                </Select>
-                {/* <Select
-                    displayEmpty
-                    value={numOFQuestion}
-                    onChange={handleQuantity}
-                    input={<Input />}
-                    renderValue={(selected) => {
-                        if ((selected as string[]).length === 0) {
-                            return <em>Select No. of Questions</em>;
-                        }
-                        return (selected as string[]);
-                    }}
-                    MenuProps={MenuProps}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                >
-                    {NumberOfQuestions.map((qType) => (
-                        <MenuItem key={qType} value={qType} style={getStyles1(qType, numOFQuestion, theme)}>
-                            {qType}
-                        </MenuItem>
-                    ))}
-                </Select> */}
-            </FormControl>
-            <Select
-                displayEmpty
-                value={difficulty}
-                onChange={handleDifficulty}
-                input={<Input />}
-                renderValue={(selected) => {
-                    if ((selected as number[]).length === 0) {
-                        return <em>Select Question Type</em>;
-                    }
-                    return selected as number[];
-                }}
-                MenuProps={MenuProps}
-                inputProps={{ 'aria-label': 'Without label' }}
-            >
-                {difficultyLevel.map((qType) => (
-                    <MenuItem key={qType} value={qType} style={getDifficultyStyles(qType, difficulty, theme)}>
-                        {qType}
-                    </MenuItem>
-                ))}
-            </Select>
-            <Select
-                displayEmpty
-                value={questionType}
-                onChange={handleType}
-                input={<Input />}
-                renderValue={(selected) => {
-                    if ((selected as number[]).length === 0) {
-                        return <em>Select Question Type</em>;
-                    }
-                    return selected as number[];
-                }}
-                MenuProps={MenuProps}
-                inputProps={{ 'aria-label': 'Without label' }}
-            >
-                {questType.map((qType) => (
-                    <MenuItem key={qType} value={qType} style={getTypeStyles(qType, questionType, theme)}>
-                        {qType}
-                    </MenuItem>
-                ))}
-            </Select>
+        <div>
+            <Row style={{ fontWeight: "bold", marginTop: 20 }} justify="center">
+                <Col span={24}>
+                    <Title>Open Trivia Questions</Title>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="gutter-row" span={20}>
+                    <div style={style}>
+                        <Select
+                            showSearch
+                            style={{ width: `40vw` }}
+                            placeholder="Select Quiz Category"
+                            optionFilterProp="children"
+                            onChange={changeCategory}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                            onSearch={onSearch}
+                        // filterOption={(input, option) =>
+                        //     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        // }
+                        >
+                            {
+                                names.map((item: any) => {
+                                    // const { id, name } = data;
+                                    // console.log(item)
+                                    return <Option key={item.id} value={item.name}>{item.name}</Option>
+                                })
+                            }
+                        </Select>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="gutter-row" span={20}>
+                    <div style={style}>
+                        <Select
+                            showSearch
+                            style={{ width: `40vw` }}
+                            placeholder="Select N0. Of Questions"
+                            optionFilterProp="children"
+                            onChange={changeNoQuest}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                            onSearch={onSearch}
+                        >
+                            {
+                                NumberOfQuestions.map(num => {
+                                    return <Option key={num} value={num}>{num}</Option>
+                                })
+                            }
+                        </Select>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="gutter-row" span={20}>
+                    <div style={style}>
+                        <Select
+                            showSearch
+                            style={{ width: `40vw` }}
+                            placeholder="Select difficulty Level"
+                            optionFilterProp="children"
+                            onChange={changeLevel}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                            onSearch={onSearch}
+                        >
+                            {
+                                difficultyLevel.map(level => {
+                                    return <Option key={level} value={level}>{level}</Option>
+                                })
+                            }
+                        </Select>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="gutter-row" span={20}>
+                    <div style={style}>
+                        <Select
+                            showSearch
+                            style={{ width: `40vw` }}
+                            placeholder="Select Questuin Type"
+                            optionFilterProp="children"
+                            onChange={changeType}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                            onSearch={onSearch}
+                        >
+                            {
+                                questType.map(type => {
+                                    return <Option key={type} value={type}>{type}</Option>
+                                })
+                            }
+                        </Select>
+                    </div>
+                </Col>
+            </Row>
+            <Row style={{ marginTop: 20, marginLeft: 20 }}>
+                <Col>
+                    <Button type="primary" size="large" icon={<PlayCircleTwoTone />} onClick={() => fetchQuizdata
+                        (amount, difficulty, questionType, Category)}>
+                        Start Quiz
+                    </Button>
+                </Col>
+            </Row>
         </div>
     );
 }
+
+export default MultipleSelect;

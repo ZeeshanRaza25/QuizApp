@@ -37,7 +37,7 @@ const Mystats: React.FC<Props> = ({ score, totalQuestions }) => {
             <Button ghost block disabled size="large" style={{ height: '8%' }}>
                 <Title level={4} style={{ textAlign: 'center', fontWeight: "bold", borderWidth: 5, borderColor: 'black' }}>
                     Your Score: {(score / totalQuestions) * 100} %
-                        </Title>
+                </Title>
             </Button>
             {
                 grade === 'F'
