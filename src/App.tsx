@@ -3,11 +3,8 @@ import './App.css';
 import QuestionCard from './Components/QuestionCard';
 import { fetchQuizQuestions, Difficulty, QuestionState } from './API';
 import MyHeader from './Components/header';
-// import Home from './Components/Home';
 import { Row, Col, Button, Layout, Typography } from 'antd';
 import Stats from './Components/result/stats2';
-// import FooterComponent from './Components/Footer';
-// import NavigateNextTwoToneIcon from '@material-ui/icons/NavigateNextTwoTone';
 
 export type AnswerObject = {
   question: string;
@@ -106,7 +103,7 @@ const App = () => {
             </Col>
           </Row>
           <Row justify='center' align="middle" >
-            <Col span={16}>
+            <Col xs={24} sm={14}>
               {
                 !loading && !gameOver && userAnswers.length !== TOTALQUESTIONS && (
                   <QuestionCard
@@ -124,7 +121,7 @@ const App = () => {
                   !loading &&
                   userAnswers.length === number + 1 &&
                   number !== TOTALQUESTIONS - 1) ? (
-                    <Button type="primary" block style={{ height: `8%` }} onClick={nextQuestion} >
+                    <Button type="primary" block style={{ height: `8%`, textAlign: 'center' }} onClick={nextQuestion} >
                       <Title level={3} style={{ textAlign: 'center', fontWeight: 'bolder' }}>
                         Next Question
                     {/* <NavigateNextTwoToneIcon style={{ alignSelf: 'center', paddingTop: '14' }} fontSize="large" /> */}
@@ -134,7 +131,7 @@ const App = () => {
             </Col>
           </Row>
           <Row justify='center' align="middle" >
-            <Col span={20}>
+            <Col xs={20} sm={20}>
               {
                 // userAnswers.length === TOTALQUESTIONS ? console.log("userAnswers ,", userAnswers) : null
                 userAnswers.length === TOTALQUESTIONS
@@ -152,8 +149,8 @@ const App = () => {
         <Footer style={{ height: '10vh', bottom: 0, backgroundColor: '#001529', color: 'white' }}>
           {/* <FooterComponent /> */}
           <Row justify='center'>
-            <Col>
-              <Title level={4} style={{ color: 'white' }}>
+            <Col xs={24} sm={24}>
+              <Title level={4} style={{ color: 'white', textAlign: 'center' }}>
                 Made by <b>Zeeshan Raza</b>
               </Title>
             </Col>
