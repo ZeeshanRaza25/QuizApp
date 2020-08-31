@@ -20,4 +20,4 @@ jobs:
       - name: Install Surge
         run: npm install -g surge
       - name: Run surge
-        run: surge ./build http://zeequiz.surge.sh/ --token ${{ secrets.SURGE_TOKEN }}
+        run: surge ./build zeequiz.surge.sh/ --token ${{ secrets.SURGE_TOKEN }}
