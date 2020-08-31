@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+// import * as serviceWorker from './serviceWorker';
+import swDev from './swDev';
 
 ReactDOM.render(
   <React.Fragment>
@@ -10,4 +11,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-serviceWorker.register();
+swDev();

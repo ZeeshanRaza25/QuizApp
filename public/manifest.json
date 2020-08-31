@@ -8,14 +8,16 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "images/icons/test-192x192.png",
+      "src": "/images/icons/test-192x192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "maskable any"
     },
     {
       "src": "images/icons/test-512x512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "maskable any"
     }
   ]
 }

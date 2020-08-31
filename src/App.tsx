@@ -5,6 +5,7 @@ import { fetchQuizQuestions, Difficulty, QuestionState } from './API';
 import MyHeader from './Components/header';
 import { Row, Col, Button, Layout, Typography } from 'antd';
 import Stats from './Components/result/stats2';
+import FooterComponent from './Components/Footer';
 
 export type AnswerObject = {
   question: string;
@@ -147,12 +148,9 @@ const App = () => {
           </Row>
         </Content>
         <Footer style={{ height: '10vh', bottom: 0, backgroundColor: '#001529', color: 'white' }}>
-          {/* <FooterComponent /> */}
           <Row justify='center'>
             <Col xs={24} sm={24}>
-              <Title level={4} style={{ color: 'white', textAlign: 'center' }}>
-                Made by <b>Zeeshan Raza</b>
-              </Title>
+                <FooterComponent />
             </Col>
           </Row>
         </Footer>

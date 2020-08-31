@@ -27,6 +27,8 @@ export const fetchQuizQuestions = async (amount: number, difficulty: Difficulty)
     // console.log('token => ',token);
 
     const data = await (await fetch(url)).json();
+    // store in local storage
+    localStorage.setItem('fetchData', JSON.stringify(data));
     // console.log(data);
     return data.results.map((question: Question) => ({
         ...question,
