@@ -29,7 +29,7 @@ type Props = {
 }
 
 const Stats: React.FC<Props> = ({ answers, score, gameover, start, totalQuestions }) => {
-    const [gameOver, setGameover] = React.useState(gameover);
+    const [gameOver] = React.useState(gameover);
 
     const classes = useStyles();
     const { TabPane } = Tabs;

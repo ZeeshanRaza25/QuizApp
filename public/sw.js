@@ -7,7 +7,7 @@ let cacheData = 'appv1';
 //   '/script/main.js'
 // ];
 
-this.addEventListener('install', (event) => {
+this.addEventListener('activate', (event) => {
   // Perform install steps
   event.waitUntil(
     caches.open(cacheData).then((cache) => {
@@ -16,7 +16,7 @@ this.addEventListener('install', (event) => {
         '/static/js/1.chunk.js',
         '/static/js/bundle.js',
         '/static/js/main.chunk.js',
-        '/static.js/0.chunk.js',
+        '/static/js/0.chunk.js',
         '/static/js/0.bundle.js',
         '/index.html',
         '/manifest.json',
