@@ -19,17 +19,19 @@ export enum Difficulty {
 }
 
 export const fetchQuizQuestions = async (amount: number, difficulty: Difficulty) => {
-    const url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
-    // const url = `https://opentdb.com/api.php?amout=${amount}&difficulty=${difficulty}&type=multiple`;
+    // const url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
+    const url = 'https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple';
+    // const url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
     // const apiTokenurl = `https://opentdb.com/api_token.php?command=request`
     // const apiurl = await (await fetch(apiTokenurl)).json();
     // const token = apiurl.token;
     // console.log('token => ',token);
 
-    const data = await (await fetch(url)).json();
+    const fetchdata = await fetch(url);
+    const data = await fetchdata.json();
     // store in local storage
-    localStorage.setItem('fetchData', JSON.stringify(data));
-    // console.log(data);
+    // localStorage.setItem('fetchData', JSON.stringify(data));
+    console.log(data);
     return data.results.map((question: Question) => ({
         ...question,
         answers: shuffleArray([

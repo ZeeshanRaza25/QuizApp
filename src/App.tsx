@@ -6,6 +6,8 @@ import MyHeader from './Components/header';
 import { Row, Col, Button, Layout, Typography } from 'antd';
 import Stats from './Components/result/stats2';
 import FooterComponent from './Components/Footer';
+import firebase from 'firebase';
+import { initNotification } from './firebase/firebase';
 
 export type AnswerObject = {
   question: string;
@@ -31,6 +33,16 @@ const App = () => {
   // console.log(questions)
   // console.log(newQuestions);
 
+  React.useEffect(() => {
+    const msg = firebase.messaging();
+    msg.requestPermission().then(() => {
+      return msg.getToken();
+    }).then((data) => {
+      console.log("token");
+      console.log(data)
+    })
+  })
+
   const start = async () => {
     setLoading(true);
     setGameOver(false);
@@ -46,6 +58,7 @@ const App = () => {
     setNumber(0);
     setLoading(false)
   }
+
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       // users answer
@@ -83,6 +96,9 @@ const App = () => {
         <Header>
           <MyHeader />
         </Header>
+        <button style={{
+          marginLeft: '100px'
+        }} onClick={initNotification}>Notifications</button>
         <Content>
           <Row justify='center' align="middle" >
             <Col span={2}>
@@ -150,7 +166,7 @@ const App = () => {
         <Footer style={{ height: '10vh', bottom: 0, backgroundColor: '#001529', color: 'white' }}>
           <Row justify='center'>
             <Col xs={24} sm={24}>
-                <FooterComponent />
+              <FooterComponent />
             </Col>
           </Row>
         </Footer>
