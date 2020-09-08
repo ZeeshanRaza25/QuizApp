@@ -1,4 +1,3 @@
-// console.log('registered');
 let cacheData = 'app1';
 
 var urlsToCache = [
