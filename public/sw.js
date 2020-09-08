@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 // console.log('registered');
 let cacheData = 'app1';
 
@@ -15,23 +13,9 @@ var urlsToCache = [
   '/manifest.json',
   '/favicon.ico',
   '/images/icons/test-192x192.png',
-  // '/main.52182c7192c981271d21.hot-update.js',
-  // 'https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple',
 ];
-  
-//   window.addEventListener('install', function (e) {
 
-//   e.userChoice.then(function (choiceResult) {
-//     console.log(choiceResult.outcome);
-//     if (choiceResult.outcome === 'dismissed') {
-//       console.log('User cancelled home screen install');
-//     } else {
-//       console.log('User added to home screen');
-//     }
-//   });
-// });
-
-self.addEventListener('activate', (event) => {
+this.addEventListener('install', (event) => {
   // Perform install steps
   event.waitUntil(
     caches.open(cacheData).then((cache) => {
@@ -40,21 +24,18 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-self.addEventListener(
+this.addEventListener(
   'fetch',
   (event) => {
     console.log(event.request.url);
-    // if (!navigator.onLine) {
     event.respondWith(
       caches.match(event.request).then((result) => {
-        console.log('result', result);
         if (result) {
           return result || fetch(event.request);
         }
       })
     );
   }
-  // }
 );
 
 // self.addEventListener('fetch', function(event) {
