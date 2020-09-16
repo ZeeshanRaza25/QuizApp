@@ -6,8 +6,8 @@ import MyHeader from './Components/header';
 import { Row, Col, Button, Layout, Typography } from 'antd';
 import Stats from './Components/result/stats2';
 import FooterComponent from './Components/Footer';
-import firebase from 'firebase';
-import { initNotification } from './firebase/firebase';
+// import firebase from 'firebase';
+import firebase from './firebase/firebase';
 
 export type AnswerObject = {
   question: string;
@@ -33,15 +33,15 @@ const App = () => {
   // console.log(questions)
   // console.log(newQuestions);
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
     const msg = firebase.messaging();
     msg.requestPermission().then(() => {
       return msg.getToken();
-    }).then((data) => {
+    }).then((token) => {
       console.log("token");
-      console.log(data)
+      console.log(token)
     })
-  })
+  // })
 
   const start = async () => {
     setLoading(true);
@@ -96,9 +96,9 @@ const App = () => {
         <Header>
           <MyHeader />
         </Header>
-        <button style={{
+        {/* <button style={{
           marginLeft: '100px'
-        }} onClick={initNotification}>Notifications</button>
+        }} onClick={initNotification}>Notifications</button> */}
         <Content>
           <Row justify='center' align="middle" >
             <Col span={2}>
